@@ -12,6 +12,8 @@ public class Constants {
 
     //高度占宽度的比例
     public static final float FRACTION_HEIGHT_EDITOR=0.64f*3/14;
+
+    //content 与 editor的间隙
     public static final float FRACTION_PADDING=FRACTION_WIDTH_BGCONTENT*0.64f / 12;
 
 

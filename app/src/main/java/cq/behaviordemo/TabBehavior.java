@@ -80,7 +80,7 @@ public class TabBehavior extends CoordinatorLayout.Behavior {
     public void onStopNestedScroll(CoordinatorLayout coordinatorLayout, View child, View target) {
         super.onStopNestedScroll(coordinatorLayout, child, target);
         float translationY=child.getTranslationY();
-        //向上滑动
+
         if(Math.abs(translationY)==mMaxDistance||translationY==0){
             return;
         }
