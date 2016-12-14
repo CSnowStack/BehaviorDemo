@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/text"
+    >
+
+    <ImageView
+        app:layout_behavior="cq.behaviordemo.BGBehavior"
+        android:background="@color/bg_context"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+
+    <LinearLayout
+        app:layout_behavior="cq.behaviordemo.EditorBehavior"
+        android:background="@drawable/bg_content"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:gravity="center"
+            android:textSize="20sp"
+            android:textColor="@color/text"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:text="CALL"/>
+        <TextView
+            android:gravity="center"
+            android:textSize="20sp"
+            android:textColor="@color/text"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:text="MESSAGE"/>
+    </LinearLayout>
+
+    <FrameLayout
+        app:layout_behavior="cq.behaviordemo.BGContentBehavior"
+        android:id="@+id/fyt_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_content">
+
+        <LinearLayout
+            android:id="@+id/lyt_statistics"
+            android:paddingBottom="20dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:layout_gravity="bottom"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_alignParentBottom="true"
+                    android:textColor="@android:color/black"
+                    android:textSize="25sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="96"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="star"/>
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_alignParentBottom="true"
+                    android:textColor="@android:color/black"
+                    android:textSize="25sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="13"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="repositories"/>
+            </LinearLayout>
+        </LinearLayout>
+
+    </FrameLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/toolbar"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_height"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        app:layout_behavior="cq.behaviordemo.ToolBarIconBehavior"
+       >
+
+        <ImageView
+            android:layout_centerVertical="true"
+            android:id="@+id/img_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/img_description_back"
+            android:padding="5dp"
+            android:src="@drawable/ic_arrow_back_white_24dp"
+            />
+
+        <ImageView
+            android:layout_centerVertical="true"
+            android:id="@+id/img_share"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/img_description_share"
+            android:padding="5dp"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_share_white_24dp"
+            />
+    </RelativeLayout>
+
+
+    <!--刚开始应该在toolbar的下面,跟随滑动移动到最终的位置-->
+    <cq.behaviordemo.CircleImageView
+        android:layout_width="@dimen/img_icon_height_start"
+        android:layout_height="@dimen/img_icon_height_start"
+        android:src="@drawable/ic_icon"
+        app:layout_behavior="cq.behaviordemo.IconBehavior"
+        />
+
+
+
+    <LinearLayout
+        app:layout_behavior="cq.behaviordemo.ScoreBehavior"
+        android:id="@+id/lyt_score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_evaluation"
+        android:gravity="center"
+        android:paddingBottom="2dp"
+        android:paddingLeft="@dimen/card_margin"
+        android:paddingRight="@dimen/card_margin"
+        android:paddingTop="2dp">
+
+        <ImageView
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            app:srcCompat="@drawable/ic_star"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="2dp"
+            android:text="5.0"
+            android:textColor="@android:color/white"
+            android:textSize="12sp"
+            />
+    </LinearLayout>
+    <TextView
+        app:layout_behavior="cq.behaviordemo.NameBehavior"
+        android:textColor="@android:color/black"
+        android:textSize="15sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="CSnowStack"/>
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tab_layout"
+        style="@style/TabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/tab_height"
+        android:background="@android:color/white"
+        app:layout_behavior="cq.behaviordemo.TabBehavior"
+        />
+
+    <android.support.v4.view.ViewPager
+        app:layout_behavior="cq.behaviordemo.ListBehavior"
+        android:id="@+id/viewpager"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        />
+
+
+</android.support.design.widget.CoordinatorLayout>

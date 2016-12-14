@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/app_padding">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/icon"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/ic_icon"/>
+
+    <TextView
+        android:id="@+id/txt_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/icon"
+        android:paddingLeft="@dimen/app_padding"
+        android:paddingRight="@dimen/app_padding"
+        android:text="CSnowStack"
+        android:textColor="@color/font_dark"
+        android:textSize="17sp"
+        />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_name"
+        android:layout_marginLeft="@dimen/app_padding"
+        android:layout_marginTop="@dimen/card_margin"
+        android:layout_toRightOf="@+id/icon"
+        android:background="@drawable/bg_evaluation"
+        android:gravity="center"
+        android:paddingBottom="2dp"
+        android:paddingLeft="@dimen/card_margin"
+        android:paddingRight="@dimen/card_margin"
+        android:paddingTop="2dp">
+
+        <ImageView
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            app:srcCompat="@drawable/ic_star"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="2dp"
+            android:text="5.0"
+            android:textColor="@android:color/white"
+            android:textSize="12sp"
+            />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/icon"
+        android:paddingLeft="@dimen/card_margin"
+        android:paddingRight="@dimen/card_margin"
+        android:paddingTop="@dimen/card_margin"
+        android:text="show me code ,talk is cheap,show me code ,talk is cheapshow me code ,talk is cheapshow me code ,talk is cheapshow me code ,talk is cheap"
+        android:textColor="@color/font_dark"
+        android:textSize="14sp"/>
+</RelativeLayout>
+

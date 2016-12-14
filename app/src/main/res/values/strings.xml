@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">BehaviorDemo</string>
+
+
+
+    <string name="img_description_share">分享</string>
+    <string name="img_description_back">返回</string>
+</resources>
