@@ -9,10 +9,9 @@
 #### 效果来源
 [这里是地址](https://material.uplabs.com/posts/profile-4f03fc6b-1a82-42ab-8a3e-f50dcbc10253)
 
-[原图](!https://assets.materialup.com/uploads/210a9886-c3fd-4dd9-9077-628779eda61a/preview.gif)
+![原图](https://assets.materialup.com/uploads/210a9886-c3fd-4dd9-9077-628779eda61a/preview.gif)
 
-[实现的效果](!https://github.com/CSnowStack/BehaviorDemo/blob/master/img/c.gif)
-
+![实现的效果](https://github.com/CSnowStack/BehaviorDemo/blob/master/img/c.gif)
 
 [项目地址](https://github.com/CSnowStack/BehaviorDemo)
 
