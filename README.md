@@ -4,6 +4,8 @@
 
 [项目地址](https://github.com/CSnowStack/BehaviorDemo)
 
+[下载体验](https://github.com/CSnowStack/BehaviorDemo/blob/master/img/Behavior.apk)
+
 #### 建议
 请先阅读[这篇文章](http://www.jianshu.com/p/f7989a2a3ec2)
 > 好多东西抄自这里
