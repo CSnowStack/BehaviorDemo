@@ -1,10 +1,12 @@
-package cq.behaviordemo;
+package cq.behaviordemo.behavior;
 
 import android.content.Context;
 import android.support.design.widget.CoordinatorLayout;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
+
+import cq.behaviordemo.R;
 
 /**
  * Created by cqll on 2016/12/13.

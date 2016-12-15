@@ -1,4 +1,4 @@
-package cq.behaviordemo;
+package cq.behaviordemo.behavior;
 
 import android.content.Context;
 import android.support.design.widget.CoordinatorLayout;
@@ -7,6 +7,9 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import java.util.List;
+
+import cq.behaviordemo.R;
+import cq.behaviordemo.behavior.HeaderScrollingViewBehavior;
 
 /**
  * Created by cqll on 2016/12/9.

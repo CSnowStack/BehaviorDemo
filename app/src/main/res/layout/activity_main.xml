@@ -8,14 +8,14 @@
     >
 
     <ImageView
-        app:layout_behavior="cq.behaviordemo.BGBehavior"
+        app:layout_behavior="cq.behaviordemo.behavior.BGBehavior"
         android:background="@color/bg_context"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         />
 
     <LinearLayout
-        app:layout_behavior="cq.behaviordemo.EditorBehavior"
+        app:layout_behavior="cq.behaviordemo.behavior.EditorBehavior"
         android:background="@drawable/bg_content"
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -39,7 +39,7 @@
     </LinearLayout>
 
     <FrameLayout
-        app:layout_behavior="cq.behaviordemo.BGContentBehavior"
+        app:layout_behavior="cq.behaviordemo.behavior.BGContentBehavior"
         android:id="@+id/fyt_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -102,7 +102,7 @@
         android:layout_height="@dimen/toolbar_height"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        app:layout_behavior="cq.behaviordemo.ToolBarIconBehavior"
+        app:layout_behavior="cq.behaviordemo.behavior.ToolBarIconBehavior"
        >
 
         <ImageView
@@ -129,17 +129,18 @@
 
 
     <!--刚开始应该在toolbar的下面,跟随滑动移动到最终的位置-->
-    <cq.behaviordemo.CircleImageView
+    <cq.behaviordemo.view.CircleImageView
+        android:scaleType="centerCrop"
         android:layout_width="@dimen/img_icon_height_start"
         android:layout_height="@dimen/img_icon_height_start"
         android:src="@drawable/ic_icon"
-        app:layout_behavior="cq.behaviordemo.IconBehavior"
+        app:layout_behavior="cq.behaviordemo.behavior.IconBehavior"
         />
 
 
 
     <LinearLayout
-        app:layout_behavior="cq.behaviordemo.ScoreBehavior"
+        app:layout_behavior="cq.behaviordemo.behavior.ScoreBehavior"
         android:id="@+id/lyt_score"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -165,7 +166,7 @@
             />
     </LinearLayout>
     <TextView
-        app:layout_behavior="cq.behaviordemo.NameBehavior"
+        app:layout_behavior="cq.behaviordemo.behavior.NameBehavior"
         android:textColor="@android:color/black"
         android:textSize="15sp"
         android:layout_width="wrap_content"
@@ -178,11 +179,11 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/tab_height"
         android:background="@android:color/white"
-        app:layout_behavior="cq.behaviordemo.TabBehavior"
+        app:layout_behavior="cq.behaviordemo.behavior.TabBehavior"
         />
 
     <android.support.v4.view.ViewPager
-        app:layout_behavior="cq.behaviordemo.ListBehavior"
+        app:layout_behavior="cq.behaviordemo.behavior.ListBehavior"
         android:id="@+id/viewpager"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

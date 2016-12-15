@@ -1,4 +1,4 @@
-package cq.behaviordemo;
+package cq.behaviordemo.behavior;
 
 import android.content.Context;
 import android.support.design.widget.CoordinatorLayout;
@@ -6,6 +6,9 @@ import android.support.design.widget.TabLayout;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.View;
+
+import cq.behaviordemo.Constants;
+import cq.behaviordemo.R;
 
 /**
  * Created by cqll on 2016/12/12.
@@ -24,7 +27,7 @@ public class BGBehavior extends CoordinatorLayout.Behavior{
         DisplayMetrics metrics=context.getResources().getDisplayMetrics();
         mWidth=metrics.widthPixels;
 
-        mStartTop=(int) (mHeightToolbar+mIconSizeStart/2+mWidth*Constants.FRACTION_WIDTH_BGCONTENT*Constants.FRACTION_HEIGHT_BGCONTENT/2f);
+        mStartTop=(int) (mHeightToolbar+mIconSizeStart/2+mWidth* Constants.FRACTION_WIDTH_BGCONTENT*Constants.FRACTION_HEIGHT_BGCONTENT/2f);
     }
 
 

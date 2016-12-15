@@ -2,11 +2,10 @@ package cq.behaviordemo;
 
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+
+import cq.behaviordemo.adapter.ItemAdapter;
 
 public class MainActivity extends AppCompatActivity {
     private TabLayout mTabLayout;
@@ -28,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void initView() {
 
-        mViewPager.setAdapter(new ItemAdapter(getSupportFragmentManager()));
+        mViewPager.setAdapter(new ItemAdapter(getSupportFragmentManager(),mViewPager));
         mTabLayout.setupWithViewPager(mViewPager);
     }
 
@@ -49,32 +48,11 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
     }
 
 
 
-    static class ItemAdapter extends FragmentStatePagerAdapter{
-        private String [] titles={"MEDIA","ABOUT","REVIEWS"};
-
-        public ItemAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            return ItemFragment.newInstance();
-        }
-
-        @Override
-        public int getCount() {
-            return titles.length;
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return titles[position];
-        }
-    }
 
 
 }

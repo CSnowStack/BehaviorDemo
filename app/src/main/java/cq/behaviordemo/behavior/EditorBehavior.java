@@ -1,4 +1,4 @@
-package cq.behaviordemo;
+package cq.behaviordemo.behavior;
 
 import android.content.Context;
 import android.support.design.widget.CoordinatorLayout;
@@ -6,6 +6,9 @@ import android.support.design.widget.TabLayout;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.View;
+
+import cq.behaviordemo.Constants;
+import cq.behaviordemo.R;
 
 /**
  * Created by cqll on 2016/12/13.
@@ -27,7 +30,7 @@ public class EditorBehavior extends CoordinatorLayout.Behavior{
 
         DisplayMetrics metrics=context.getResources().getDisplayMetrics();
         mWidth=metrics.widthPixels;
-        mChildWidth= (int) (mWidth*Constants.FRACTION_WIDTH_BGCONTENT);
+        mChildWidth= (int) (mWidth* Constants.FRACTION_WIDTH_BGCONTENT);
         mChildHeight= (int) (mChildWidth*Constants.FRACTION_HEIGHT_EDITOR);
         mBgContentHeight= (int) (mChildWidth*Constants.FRACTION_HEIGHT_BGCONTENT);
     }

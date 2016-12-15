@@ -1,10 +1,12 @@
-package cq.behaviordemo;
+package cq.behaviordemo.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import cq.behaviordemo.R;
 
 /**
  * Created by cqll on 2016/9/30.

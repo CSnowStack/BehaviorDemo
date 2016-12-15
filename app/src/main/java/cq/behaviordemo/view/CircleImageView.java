@@ -1,4 +1,4 @@
-package cq.behaviordemo;
+package cq.behaviordemo.view;
 
 import android.content.Context;
 import android.graphics.Canvas;

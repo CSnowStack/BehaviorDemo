@@ -1,4 +1,4 @@
-package cq.behaviordemo;
+package cq.behaviordemo.behavior;
 
 import android.content.Context;
 import android.support.design.widget.CoordinatorLayout;

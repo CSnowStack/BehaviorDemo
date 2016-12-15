@@ -9,11 +9,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import cq.behaviordemo.adapter.FriendInfoAdapter;
+
 /**
  * Created by cqll on 2016/9/30.
  */
 
-public class ItemFragment extends Fragment {
+public class ItemFragment extends Fragment implements IsChildRequestScrollListener{
 
     private RecyclerView mRecyclerView;
 
@@ -40,4 +42,11 @@ public class ItemFragment extends Fragment {
     }
 
 
+    @Override
+    public boolean requestScroll() {
+        //不是在顶部
+        return !(mRecyclerView.getAdapter()!=null&&
+                mRecyclerView.getAdapter().getItemCount()>0&&
+                ((LinearLayoutManager)mRecyclerView.getLayoutManager()).findFirstCompletelyVisibleItemPosition()==0);
+    }
 }

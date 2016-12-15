@@ -1,11 +1,16 @@
-package cq.behaviordemo;
+package cq.behaviordemo.behavior;
 
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.view.ViewCompat;
+import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.View;
+
+import cq.behaviordemo.Constants;
+import cq.behaviordemo.IsChildRequestScrollListener;
+import cq.behaviordemo.R;
 
 /**
  * Created by cqll on 2016/12/9.
@@ -15,8 +20,9 @@ import android.view.View;
 public class TabBehavior extends CoordinatorLayout.Behavior {
     private int mHeightToolbar, mMaxDistance,mEditorPadding;
     private Context mContext;
-    private boolean mUp;//向上滑动,还是向下滑动
+    private boolean mUp/*向上滑动,还是向下滑动*/;
     private ValueAnimator mValueAnimator;
+    private ViewPager mViewPager;
     public TabBehavior() {
     }
 
@@ -40,7 +46,7 @@ public class TabBehavior extends CoordinatorLayout.Behavior {
     @Override
     public boolean onLayoutChild(CoordinatorLayout parent, View child, int layoutDirection) {
         parent.onLayoutChild(child, layoutDirection);
-
+        mViewPager= (ViewPager) parent.findViewById(R.id.viewpager);
         mMaxDistance = (int) (child.getWidth() * Constants.FRACTION_WIDTH_BGCONTENT * 0.64f  + mContext.getResources().getDimensionPixelOffset(R.dimen.img_icon_height_start) / 2 + child.getWidth() * Constants.FRACTION_PADDING+mEditorPadding);
         child.offsetTopAndBottom(mMaxDistance+mHeightToolbar);
         return true;
@@ -49,7 +55,14 @@ public class TabBehavior extends CoordinatorLayout.Behavior {
 
     @Override
     public boolean onStartNestedScroll(CoordinatorLayout coordinatorLayout, View child, View directTargetChild, View target, int nestedScrollAxes) {
-        return (nestedScrollAxes & ViewCompat.SCROLL_AXIS_VERTICAL) != 0;//垂直
+        return (nestedScrollAxes & ViewCompat.SCROLL_AXIS_VERTICAL) != 0&&//垂直
+                //item不需要滑动
+                !(child.getTranslationY()==-mMaxDistance&&//在顶部
+                        mViewPager.getAdapter()!=null&& //有适配器
+                        mViewPager.getAdapter().getCount()>0&&//有item
+                        mViewPager.getAdapter() instanceof IsChildRequestScrollListener && //实现了
+                        ((IsChildRequestScrollListener)mViewPager.getAdapter()).requestScroll()//需要滑动
+                );
     }
 
 
