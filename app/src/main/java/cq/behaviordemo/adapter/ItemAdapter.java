@@ -9,17 +9,20 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
-import cq.behaviordemo.IsChildRequestScrollListener;
+import cq.behaviordemo.listener.IsChildRequestScrollListener;
 import cq.behaviordemo.ItemFragment;
+import cq.behaviordemo.listener.NeedExpandListener;
+import cq.behaviordemo.listener.SupportNeedExpendListener;
 
 /**
  * Created by cqll on 2016/12/15.
  */
 
-public  class ItemAdapter extends FragmentStatePagerAdapter implements IsChildRequestScrollListener{
+public  class ItemAdapter extends FragmentStatePagerAdapter implements IsChildRequestScrollListener,SupportNeedExpendListener{
     private String [] titles={"MEDIA","ABOUT","REVIEWS"};
     private WeakReference<ViewPager> mViewPager;//也许有点用
     private List<ItemFragment> mFragments;
+    private NeedExpandListener mNeedExpandListener;
     public ItemAdapter(FragmentManager fm) {
         this(fm,null);
     }
@@ -27,10 +30,12 @@ public  class ItemAdapter extends FragmentStatePagerAdapter implements IsChildRe
     public ItemAdapter(FragmentManager fm, ViewPager viewPager) {
         super(fm);
         mViewPager = new WeakReference<ViewPager>(viewPager);
+
         mFragments=new ArrayList<ItemFragment>();
         mFragments.add(ItemFragment.newInstance());
         mFragments.add(ItemFragment.newInstance());
         mFragments.add(ItemFragment.newInstance());
+        fillListener();
     }
 
     @Override
@@ -60,5 +65,26 @@ public  class ItemAdapter extends FragmentStatePagerAdapter implements IsChildRe
         }
 
         return false;
+    }
+
+    @Override
+    public void setNeedExpendListener(NeedExpandListener listener) {
+        mNeedExpandListener=listener;
+        fillListener();
+    }
+
+    @Override
+    public NeedExpandListener getNeedExpendListener() {
+        return mNeedExpandListener;
+    }
+
+    private void fillListener(){
+        if(mFragments.size()>0){
+            for(Fragment fragment:mFragments){
+                if(fragment instanceof SupportNeedExpendListener &&((SupportNeedExpendListener)fragment).getNeedExpendListener()==null){
+                    ((SupportNeedExpendListener)fragment).setNeedExpendListener(mNeedExpandListener);
+                }
+            }
+        }
     }
 }

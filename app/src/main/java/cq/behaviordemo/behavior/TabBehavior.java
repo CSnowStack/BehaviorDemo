@@ -9,20 +9,22 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import cq.behaviordemo.Constants;
-import cq.behaviordemo.IsChildRequestScrollListener;
 import cq.behaviordemo.R;
+import cq.behaviordemo.listener.IsChildRequestScrollListener;
+import cq.behaviordemo.listener.NeedExpandListener;
+import cq.behaviordemo.listener.SupportNeedExpendListener;
 
 /**
  * Created by cqll on 2016/12/9.
  */
 
-public class TabBehavior extends CoordinatorLayout.Behavior {
+public class TabBehavior extends CoordinatorLayout.Behavior implements NeedExpandListener {
     private int mHeightToolbar, mMaxDistance, mEditorPadding;
     private Context mContext;
-    private boolean mUp/*向上滑动,还是向下滑动*/;
+    private boolean mUp/*向上滑动,还是向下滑动*/,mControlChange/*手指控制的滑动*/;
     private ValueAnimator mValueAnimator;
     private ViewPager mViewPager;
-
+    private View mTab;
     public TabBehavior() {
     }
 
@@ -33,8 +35,6 @@ public class TabBehavior extends CoordinatorLayout.Behavior {
         mEditorPadding = context.getResources().getDimensionPixelOffset(R.dimen.editor_padding);
 
         mValueAnimator = ValueAnimator.ofFloat(0, 1);
-
-
     }
 
 
@@ -48,6 +48,7 @@ public class TabBehavior extends CoordinatorLayout.Behavior {
     @Override
     public boolean onLayoutChild(CoordinatorLayout parent, View child, int layoutDirection) {
         parent.onLayoutChild(child, layoutDirection);
+        mTab=child;
         mViewPager = (ViewPager) parent.findViewById(R.id.viewpager);
         mMaxDistance = (int) (child.getWidth() * Constants.FRACTION_WIDTH_BGCONTENT * 0.64f + mContext.getResources().getDimensionPixelOffset(R.dimen.img_icon_height_start) / 2 + child.getWidth() * Constants.FRACTION_PADDING + mEditorPadding);
         child.offsetTopAndBottom(mMaxDistance + mHeightToolbar);
@@ -57,8 +58,15 @@ public class TabBehavior extends CoordinatorLayout.Behavior {
 
     @Override
     public boolean onStartNestedScroll(CoordinatorLayout coordinatorLayout, View child, View directTargetChild, View target, int nestedScrollAxes) {
-        return (nestedScrollAxes & ViewCompat.SCROLL_AXIS_VERTICAL) != 0;
+        mControlChange=true;
 
+        if(mViewPager.getAdapter() != null && //有适配器
+                mViewPager.getAdapter().getCount() > 0 &&//有item
+                mViewPager.getAdapter() instanceof SupportNeedExpendListener&&
+               ((SupportNeedExpendListener) mViewPager.getAdapter()).getNeedExpendListener()==null){
+           ((SupportNeedExpendListener) mViewPager.getAdapter()).setNeedExpendListener(this);
+       }
+        return (nestedScrollAxes & ViewCompat.SCROLL_AXIS_VERTICAL) != 0;
     }
 
 
@@ -69,11 +77,11 @@ public class TabBehavior extends CoordinatorLayout.Behavior {
     public void onNestedPreScroll(CoordinatorLayout coordinatorLayout, View child, View target, int dx, int dy, int[] consumed) {
         super.onNestedPreScroll(coordinatorLayout, child, target, dx, dy, consumed);
 
-        if(isChildRequestScroll(child)){//如果list需要滑动这边就不动
+        if(isChildRequestScroll(child.getTranslationY())){//如果list需要滑动这边就不动
             consumed[1]=0;
             return;
         }
-        //只要开始拦截，就需要把所有Scroll事件消费掉
+
         consumed[1]=dy;//全部消耗
         int distance = -dy / 2;//降低移动的速度
         mUp = dy > 0;
@@ -92,6 +100,7 @@ public class TabBehavior extends CoordinatorLayout.Behavior {
     @Override
     public void onStopNestedScroll(CoordinatorLayout coordinatorLayout, View child, View target) {
         super.onStopNestedScroll(coordinatorLayout, child, target);
+        mControlChange=false;
         float translationY = child.getTranslationY();
         if (Math.abs(translationY) == mMaxDistance || translationY == 0) {
             return;
@@ -131,12 +140,33 @@ public class TabBehavior extends CoordinatorLayout.Behavior {
     }
 
 
-    private boolean isChildRequestScroll(View tab) {
-        return (tab.getTranslationY() == -mMaxDistance &&//在顶部
+    /**
+     * Child是否需要滑动
+     */
+    private boolean isChildRequestScroll(float  translationY) {
+        return (translationY == -mMaxDistance &&//在顶部
                         mViewPager.getAdapter() != null && //有适配器
                         mViewPager.getAdapter().getCount() > 0 &&//有item
                         mViewPager.getAdapter() instanceof IsChildRequestScrollListener && //实现了
                         ((IsChildRequestScrollListener) mViewPager.getAdapter()).requestScroll()//需要滑动
                 );
+    }
+
+
+    /**
+     * list fling到头的时候 展开
+     */
+    @Override
+    public void needExpand() {
+        if(!mControlChange){
+            mValueAnimator.setDuration(500);
+            mValueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator animation) {
+                    mTab.setTranslationY((animation.getAnimatedFraction()-1)*mMaxDistance);
+                }
+            });
+            mValueAnimator.start();
+        }
     }
 }

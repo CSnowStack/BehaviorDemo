@@ -10,15 +10,18 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import cq.behaviordemo.adapter.FriendInfoAdapter;
+import cq.behaviordemo.listener.IsChildRequestScrollListener;
+import cq.behaviordemo.listener.NeedExpandListener;
+import cq.behaviordemo.listener.SupportNeedExpendListener;
 
 /**
  * Created by cqll on 2016/9/30.
  */
 
-public class ItemFragment extends Fragment implements IsChildRequestScrollListener{
+public class ItemFragment extends Fragment implements IsChildRequestScrollListener ,SupportNeedExpendListener{
 
     private RecyclerView mRecyclerView;
-
+    private NeedExpandListener mNeedExpandListener;
     public static ItemFragment newInstance() {
 
         Bundle args = new Bundle();
@@ -39,6 +42,21 @@ public class ItemFragment extends Fragment implements IsChildRequestScrollListen
     private void initView() {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setAdapter(new FriendInfoAdapter());
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if(dy<0&&((LinearLayoutManager)recyclerView.getLayoutManager()).findFirstCompletelyVisibleItemPosition()==0){
+                    if(mNeedExpandListener!=null)
+                        mNeedExpandListener.needExpand();
+                }
+            }
+        });
     }
 
 
@@ -49,5 +67,16 @@ public class ItemFragment extends Fragment implements IsChildRequestScrollListen
                 mRecyclerView.getAdapter()!=null&&
                 mRecyclerView.getAdapter().getItemCount()>0&&
                 ((LinearLayoutManager)mRecyclerView.getLayoutManager()).findFirstCompletelyVisibleItemPosition()==0);
+    }
+
+
+    @Override
+    public void setNeedExpendListener(NeedExpandListener listener) {
+        mNeedExpandListener=listener;
+    }
+
+    @Override
+    public NeedExpandListener getNeedExpendListener() {
+        return mNeedExpandListener;
     }
 }

@@ -1,4 +1,4 @@
-package cq.behaviordemo;
+package cq.behaviordemo.listener;
 
 /**
  * Created by cqll on 2016/12/15.

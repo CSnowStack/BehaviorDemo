@@ -2,6 +2,8 @@
 
 ### 简介
 
+[项目地址](https://github.com/CSnowStack/BehaviorDemo)
+
 #### 建议
 请先阅读[这篇文章](http://www.jianshu.com/p/f7989a2a3ec2)
 > 好多东西抄自这里
@@ -17,13 +19,11 @@
 
 ![实现的效果](https://github.com/CSnowStack/BehaviorDemo/blob/master/img/c.gif)
 
-[项目地址](https://github.com/CSnowStack/BehaviorDemo)
+
+
 
 > 一些细节没有实现 ,见谅,录制的gif效果也不太好 :-(
 
-
-### TODO
-- 快速滑动会产生问题.....
 
 ### 实现
 
@@ -50,42 +50,79 @@
 
 - `ToolBarIcon` 跟随`BGContent` ,根据`BGContent`移动的比例修改图标的`Alpha`
 
-
 #### 部分代码
 
 ```java
 //TabBehavior
-@Override
 public void onNestedPreScroll(CoordinatorLayout coordinatorLayout, View child, View target, int dx, int dy, int[] consumed) {
     super.onNestedPreScroll(coordinatorLayout, child, target, dx, dy, consumed);
-    //只要开始拦截，就需要把所有Scroll事件消费掉
-    consumed[1]=dy;
-    int distance=-dy/2;//降低移动的速度
-    mUp=dy>0;
 
-    if(child.getTranslationY()+distance<-mMaxDistance){
-        distance=-mMaxDistance;
-    }else if(child.getTranslationY()+distance>0){
-        distance=0;
-    }else {
-      distance= (int) (child.getTranslationY()+distance);
+    if(isChildRequestScroll(child.getTranslationY())){//如果list需要滑动这边就不动
+        consumed[1]=0;
+        return;
+    }
+
+    consumed[1]=dy;//全部消耗
+    int distance = -dy / 2;//降低移动的速度
+    mUp = dy > 0;
+
+    if (child.getTranslationY() + distance < -mMaxDistance) {
+        distance = -mMaxDistance;
+    } else if (child.getTranslationY() + distance > 0) {
+        distance = 0;
+    } else {
+        distance = (int) (child.getTranslationY() + distance);
     }
     child.setTranslationY(distance);
 }
 
-//ListBehavior
-@Override
-int getScrollRange(View v) {
-    if (isDependOn(v)) {
-        return -mHeightToolbar;
-    } else {
-        return super.getScrollRange(v);
-    }
+/**
+ * Child是否需要滑动
+ */
+private boolean isChildRequestScroll(float  translationY) {
+    return (translationY == -mMaxDistance &&//在顶部
+                    mViewPager.getAdapter() != null && //有适配器
+                    mViewPager.getAdapter().getCount() > 0 &&//有item
+                    mViewPager.getAdapter() instanceof IsChildRequestScrollListener && //实现了
+                    ((IsChildRequestScrollListener) mViewPager.getAdapter()).requestScroll()//需要滑动
+            );
 }
-//   HeaderScrollingViewBehavior$onMeasure  所以要返回 - mHeightToolbar
-final int height = availableHeight - header.getMeasuredHeight()
-        + getScrollRange(header);
 
+
+//设置 listener 检测是否需要展开
+@Override
+public boolean onStartNestedScroll(CoordinatorLayout coordinatorLayout, View child, View directTargetChild, View target, int nestedScrollAxes) {
+    mControlChange=true;
+
+    if(mViewPager.getAdapter() != null && //有适配器
+            mViewPager.getAdapter().getCount() > 0 &&//有item
+            mViewPager.getAdapter() instanceof SupportNeedExpendListener&&
+           ((SupportNeedExpendListener) mViewPager.getAdapter()).getNeedExpendListener()==null){
+       ((SupportNeedExpendListener) mViewPager.getAdapter()).setNeedExpendListener(this);
+   }
+    return (nestedScrollAxes & ViewCompat.SCROLL_AXIS_VERTICAL) != 0;
+}
+
+/**
+  * list fling到头的时候 展开
+  */
+ @Override
+ public void needExpand() {
+     if(!mControlChange){//如果是手指在控制就不管
+         mValueAnimator.setDuration(500);
+         mValueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+             @Override
+             public void onAnimationUpdate(ValueAnimator animation) {
+                 mTab.setTranslationY((animation.getAnimatedFraction()-1)*mMaxDistance);
+             }
+         });
+         mValueAnimator.start();
+     }
+ }
 ```
 
->代码是蛮简单的 ,直接看项目即可,就那几行代码
+>代码是蛮简单的 ,直接看项目即可,就那几行代码, 又加看点功能 耦合度变高了的感觉欢迎 Star,提 issue 还有PR
+
+
+### TODO
+- 在向上fling的过程中,向下滑,会出现错乱的情况 :-(
