@@ -77,8 +77,10 @@ public class BGContentBehavior extends CoordinatorLayout.Behavior{
         float fraction = Math.abs(dependency.getTranslationY())/ mTabMaxTranslation;
         child.setScaleX(1 + (fraction*mFraction));
 
-        child.setTranslationY(-fraction*mDistance);
+        //下面的文字不缩放..
+        mStatistics.setScaleX(1/(1 + (fraction*mFraction)));
 
+        child.setTranslationY(-fraction*mDistance);
         if(fraction<0.7f){
             mStatistics.setAlpha(1-fraction/0.7f);
         }else {
