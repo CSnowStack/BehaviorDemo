@@ -9,7 +9,6 @@ import android.view.View;
 import java.util.List;
 
 import cq.behaviordemo.R;
-import cq.behaviordemo.behavior.HeaderScrollingViewBehavior;
 
 /**
  * Created by cqll on 2016/12/9.
@@ -26,7 +25,6 @@ public class ListBehavior extends HeaderScrollingViewBehavior {
     public boolean layoutDependsOn(CoordinatorLayout parent, View child, View dependency) {
         return isDependOn(dependency);
     }
-
 
 
     @Override
