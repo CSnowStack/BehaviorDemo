@@ -123,7 +123,7 @@ public boolean onStartNestedScroll(CoordinatorLayout coordinatorLayout, View chi
  }
 ```
 
->代码是蛮简单的 ,直接看项目即可,就那几行代码, 又加看点功能 耦合度变高了的感觉欢迎 Star,提 issue 还有PR
+>代码是蛮简单的 ,直接看项目即可,就那几行代码, 又加了点功能 耦合度变高了的感觉欢迎 Star,提 issue 还有PR
 
 
 ### TODO
