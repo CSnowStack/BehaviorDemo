@@ -1,5 +1,7 @@
 package cq.behaviordemo.behavior;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.support.design.widget.CoordinatorLayout;
@@ -7,6 +9,9 @@ import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.View;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import cq.behaviordemo.Constants;
 import cq.behaviordemo.R;
@@ -25,6 +30,7 @@ public class TabBehavior extends CoordinatorLayout.Behavior implements NeedExpan
     private ValueAnimator mValueAnimator;
     private ViewPager mViewPager;
     private View mTab;
+    private List<View> mHardwareViews;
     public TabBehavior() {
     }
 
@@ -35,6 +41,7 @@ public class TabBehavior extends CoordinatorLayout.Behavior implements NeedExpan
         mEditorPadding = context.getResources().getDimensionPixelOffset(R.dimen.editor_padding);
 
         mValueAnimator = ValueAnimator.ofFloat(0, 1);
+        mHardwareViews=new ArrayList<>();
     }
 
 
@@ -46,12 +53,43 @@ public class TabBehavior extends CoordinatorLayout.Behavior implements NeedExpan
      * child.getWidth()*0.9f*0.64/16 间隙的高度
      */
     @Override
-    public boolean onLayoutChild(CoordinatorLayout parent, View child, int layoutDirection) {
+    public boolean onLayoutChild(final CoordinatorLayout parent, final View child, int layoutDirection) {
         parent.onLayoutChild(child, layoutDirection);
         mTab=child;
         mViewPager = (ViewPager) parent.findViewById(R.id.viewpager);
         mMaxDistance = (int) (child.getWidth() * Constants.FRACTION_WIDTH_BGCONTENT * 0.64f + mContext.getResources().getDimensionPixelOffset(R.dimen.img_icon_height_start) / 2 + child.getWidth() * Constants.FRACTION_PADDING + mEditorPadding);
         child.offsetTopAndBottom(mMaxDistance + mHeightToolbar);
+        if(mHardwareViews.size()==0){
+            mHardwareViews.add(parent.findViewById(R.id.txt_name));
+            mHardwareViews.add(parent.findViewById(R.id.img_icon));
+            mHardwareViews.add(parent.findViewById(R.id.lyt_score));
+            mHardwareViews.add(parent.findViewById(R.id.tab_layout));
+            mHardwareViews.add(parent.findViewById(R.id.bg));
+            mHardwareViews.add(parent.findViewById(R.id.lyt_editor));
+            mHardwareViews.add(parent.findViewById(R.id.lyt_statistics));
+
+            //开启硬件离屏缓存
+            mValueAnimator.addListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    super.onAnimationEnd(animation);
+                    for(View v:mHardwareViews){
+                        v.setLayerType(View.LAYER_TYPE_NONE,null);
+                    }
+                }
+
+                @Override
+                public void onAnimationStart(Animator animation) {
+                    super.onAnimationStart(animation);
+                    for(View v:mHardwareViews){
+                        v.setLayerType(View.LAYER_TYPE_HARDWARE,null);
+                    }
+                }
+            });
+        }
+
+
+
         return true;
     }
 
@@ -121,7 +159,7 @@ public class TabBehavior extends CoordinatorLayout.Behavior implements NeedExpan
                 shouldMoveDistance = Math.abs(translationY) - mMaxDistance;
             }
         } else {//向下滑动
-            //没超过 1/8
+//            没超过 1/8
             if (Math.abs(translationY) > mMaxDistance * 7f / 8f) {
                 shouldMoveDistance = -(mMaxDistance + translationY);
             } else {
@@ -130,6 +168,7 @@ public class TabBehavior extends CoordinatorLayout.Behavior implements NeedExpan
         }
 
         mValueAnimator.setDuration((long) (Math.abs(shouldMoveDistance) / mMaxDistance * Constants.DURATION_SCROLL));
+        mValueAnimator.removeAllUpdateListeners();
         mValueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
@@ -160,6 +199,7 @@ public class TabBehavior extends CoordinatorLayout.Behavior implements NeedExpan
     public void needExpand() {
         if(!mControlChange){
             mValueAnimator.setDuration(500);
+            mValueAnimator.removeAllUpdateListeners();
             mValueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                 @Override
                 public void onAnimationUpdate(ValueAnimator animation) {

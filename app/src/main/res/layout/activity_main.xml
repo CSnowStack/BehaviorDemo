@@ -8,6 +8,7 @@
     >
 
     <ImageView
+        android:id="@+id/bg"
         app:layout_behavior="cq.behaviordemo.behavior.BGBehavior"
         android:background="@color/bg_context"
         android:layout_width="match_parent"
@@ -15,6 +16,7 @@
         />
 
     <LinearLayout
+        android:id="@+id/lyt_editor"
         app:layout_behavior="cq.behaviordemo.behavior.EditorBehavior"
         android:background="@drawable/bg_content"
         android:orientation="horizontal"
@@ -130,6 +132,7 @@
 
     <!--刚开始应该在toolbar的下面,跟随滑动移动到最终的位置-->
     <cq.behaviordemo.view.CircleImageView
+        android:id="@+id/img_icon"
         android:scaleType="centerCrop"
         android:layout_width="@dimen/img_icon_height_start"
         android:layout_height="@dimen/img_icon_height_start"
@@ -166,6 +169,7 @@
             />
     </LinearLayout>
     <TextView
+        android:id="@+id/txt_name"
         app:layout_behavior="cq.behaviordemo.behavior.NameBehavior"
         android:textColor="@android:color/black"
         android:textSize="15sp"

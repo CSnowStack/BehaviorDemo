@@ -62,11 +62,14 @@ public class ItemFragment extends Fragment implements IsChildRequestScrollListen
 
     @Override
     public boolean requestScroll() {
-        //不是在顶部
-        return !(mRecyclerView!=null&&
+        if(mRecyclerView!=null&&
                 mRecyclerView.getAdapter()!=null&&
-                mRecyclerView.getAdapter().getItemCount()>0&&
-                ((LinearLayoutManager)mRecyclerView.getLayoutManager()).findFirstCompletelyVisibleItemPosition()==0);
+                mRecyclerView.getAdapter().getItemCount()>0){
+            //不是在顶部
+            return !(((LinearLayoutManager)mRecyclerView.getLayoutManager()).findFirstCompletelyVisibleItemPosition()==0);
+        }
+        return false;
+
     }
 
 

@@ -9,8 +9,8 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
-import cq.behaviordemo.listener.IsChildRequestScrollListener;
 import cq.behaviordemo.ItemFragment;
+import cq.behaviordemo.listener.IsChildRequestScrollListener;
 import cq.behaviordemo.listener.NeedExpandListener;
 import cq.behaviordemo.listener.SupportNeedExpendListener;
 

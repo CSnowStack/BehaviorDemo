@@ -121,9 +121,51 @@ public boolean onStartNestedScroll(CoordinatorLayout coordinatorLayout, View chi
          mValueAnimator.start();
      }
  }
+
+ /**
+   * 开启硬件离屏缓存,放入不服导致缓存失效的 view
+   * 效果都还好
+   */
+ if(mHardwareViews.size()==0){
+     mHardwareViews.add(parent.findViewById(R.id.txt_name));
+     mHardwareViews.add(parent.findViewById(R.id.img_icon));
+     mHardwareViews.add(parent.findViewById(R.id.lyt_score));
+     mHardwareViews.add(parent.findViewById(R.id.tab_layout));
+     mHardwareViews.add(parent.findViewById(R.id.bg));
+     mHardwareViews.add(parent.findViewById(R.id.lyt_editor));
+     mHardwareViews.add(parent.findViewById(R.id.lyt_statistics));
+
+     //开启硬件离屏缓存
+     mValueAnimator.addListener(new AnimatorListenerAdapter() {
+         @Override
+         public void onAnimationEnd(Animator animation) {
+             super.onAnimationEnd(animation);
+             for(View v:mHardwareViews){
+                 v.setLayerType(View.LAYER_TYPE_NONE,null);
+             }
+         }
+
+         @Override
+         public void onAnimationStart(Animator animation) {
+             super.onAnimationStart(animation);
+             for(View v:mHardwareViews){
+                 v.setLayerType(View.LAYER_TYPE_HARDWARE,null);
+             }
+         }
+     });
+ }
+
+
 ```
 
 >代码是蛮简单的 ,直接看项目即可,就那几行代码, 又加了点功能 耦合度变高了的感觉欢迎 Star,提 issue 还有PR
+
+
+##### 开启硬件离屏缓存
+![开启硬件离屏缓存](https://github.com/CSnowStack/BehaviorDemo/blob/master/img/start.gif)
+
+##### 关闭硬件离屏缓存
+![关闭硬件离屏缓存](https://github.com/CSnowStack/BehaviorDemo/blob/master/img/close.gif)
 
 
 ### TODO
