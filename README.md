@@ -58,51 +58,50 @@
 //TabBehavior
 public void onNestedPreScroll(CoordinatorLayout coordinatorLayout, View child, View target, int dx, int dy, int[] consumed) {
     super.onNestedPreScroll(coordinatorLayout, child, target, dx, dy, consumed);
-
-    if(isChildRequestScroll(child.getTranslationY())){//如果list需要滑动这边就不动
-        consumed[1]=0;
-        return;
-    }
-
-    consumed[1]=dy;//全部消耗
-    int distance = -dy / 2;//降低移动的速度
     mUp = dy > 0;
+           if(isChildRequestScroll(child.getTranslationY())){//如果list需要滑动这边就不动
+               consumed[1]=0;
+               return;
+           }
+           consumed[1]=dy;//全部消耗
+           int distance = -dy / 2;//降低移动的速度
 
-    if (child.getTranslationY() + distance < -mMaxDistance) {
-        distance = -mMaxDistance;
-    } else if (child.getTranslationY() + distance > 0) {
-        distance = 0;
-    } else {
-        distance = (int) (child.getTranslationY() + distance);
-    }
-    child.setTranslationY(distance);
+
+           if (child.getTranslationY() + distance < -mMaxDistance) {
+               distance = -mMaxDistance;
+           } else if (child.getTranslationY() + distance > 0) {
+               distance = 0;
+           } else {
+               distance = (int) (child.getTranslationY() + distance);
+           }
+           child.setTranslationY(distance);
 }
 
 /**
  * Child是否需要滑动
  */
 private boolean isChildRequestScroll(float  translationY) {
-    return (translationY == -mMaxDistance &&//在顶部
-                    mViewPager.getAdapter() != null && //有适配器
-                    mViewPager.getAdapter().getCount() > 0 &&//有item
-                    mViewPager.getAdapter() instanceof IsChildRequestScrollListener && //实现了
-                    ((IsChildRequestScrollListener) mViewPager.getAdapter()).requestScroll()//需要滑动
-            );
+  return (translationY == -mMaxDistance &&//在顶部
+                        mViewPager.getAdapter() != null && //有适配器
+                        mViewPager.getAdapter().getCount() > 0 &&//有item
+                        mViewPager.getAdapter() instanceof IsChildRequestScrollListener && //实现了
+                        ((IsChildRequestScrollListener) mViewPager.getAdapter()).requestScroll(mUp)//需要滑动
+                );
 }
 
 
 //设置 listener 检测是否需要展开
 @Override
 public boolean onStartNestedScroll(CoordinatorLayout coordinatorLayout, View child, View directTargetChild, View target, int nestedScrollAxes) {
-    mControlChange=true;
+  mControlChange=true;
 
-    if(mViewPager.getAdapter() != null && //有适配器
-            mViewPager.getAdapter().getCount() > 0 &&//有item
-            mViewPager.getAdapter() instanceof SupportNeedExpendListener&&
-           ((SupportNeedExpendListener) mViewPager.getAdapter()).getNeedExpendListener()==null){
-       ((SupportNeedExpendListener) mViewPager.getAdapter()).setNeedExpendListener(this);
-   }
-    return (nestedScrollAxes & ViewCompat.SCROLL_AXIS_VERTICAL) != 0;
+     if(mViewPager.getAdapter() != null && //有适配器
+             mViewPager.getAdapter().getCount() > 0 &&//有item
+             mViewPager.getAdapter() instanceof SupportNeedExpendListener&&
+            ((SupportNeedExpendListener) mViewPager.getAdapter()).getNeedExpendListener()==null){
+        ((SupportNeedExpendListener) mViewPager.getAdapter()).setNeedExpendListener(this);
+    }
+     return (nestedScrollAxes & ViewCompat.SCROLL_AXIS_VERTICAL) != 0;
 }
 
 /**
@@ -110,16 +109,17 @@ public boolean onStartNestedScroll(CoordinatorLayout coordinatorLayout, View chi
   */
  @Override
  public void needExpand() {
-     if(!mControlChange){//如果是手指在控制就不管
-         mValueAnimator.setDuration(500);
-         mValueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-             @Override
-             public void onAnimationUpdate(ValueAnimator animation) {
-                 mTab.setTranslationY((animation.getAnimatedFraction()-1)*mMaxDistance);
-             }
-         });
-         mValueAnimator.start();
-     }
+   if(!mControlChange){
+             mValueAnimator.setDuration(500);
+             mValueAnimator.removeAllUpdateListeners();
+             mValueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                 @Override
+                 public void onAnimationUpdate(ValueAnimator animation) {
+                     mTab.setTranslationY((animation.getAnimatedFraction()-1)*mMaxDistance);
+                 }
+             });
+             mValueAnimator.start();
+         }
  }
 
  /**
