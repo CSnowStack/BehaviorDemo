@@ -162,7 +162,7 @@ public boolean onStartNestedScroll(CoordinatorLayout coordinatorLayout, View chi
 
 
 ##### 开启硬件离屏缓存
-![开启硬件离屏缓存](https://github.com/CSnowStack/BehaviorDemo/blob/master/img/start.gif)
+![开启硬件离屏缓存](https://github.com/CSnowStack/BehaviorDemo/blob/master/img/open.gif)
 
 ##### 关闭硬件离屏缓存
 ![关闭硬件离屏缓存](https://github.com/CSnowStack/BehaviorDemo/blob/master/img/close.gif)
