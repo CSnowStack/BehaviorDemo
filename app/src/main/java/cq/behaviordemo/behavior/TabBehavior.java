@@ -114,15 +114,14 @@ public class TabBehavior extends CoordinatorLayout.Behavior implements NeedExpan
     @Override
     public void onNestedPreScroll(CoordinatorLayout coordinatorLayout, View child, View target, int dx, int dy, int[] consumed) {
         super.onNestedPreScroll(coordinatorLayout, child, target, dx, dy, consumed);
-
+        mUp = dy > 0;
         if(isChildRequestScroll(child.getTranslationY())){//如果list需要滑动这边就不动
             consumed[1]=0;
             return;
         }
-
         consumed[1]=dy;//全部消耗
         int distance = -dy / 2;//降低移动的速度
-        mUp = dy > 0;
+
 
         if (child.getTranslationY() + distance < -mMaxDistance) {
             distance = -mMaxDistance;
@@ -148,6 +147,15 @@ public class TabBehavior extends CoordinatorLayout.Behavior implements NeedExpan
 
     }
 
+
+    /**
+     *  list 不需要滑动就拦截.需要就不拦截
+     */
+
+    @Override
+    public boolean onNestedPreFling(CoordinatorLayout coordinatorLayout, View child, View target, float velocityX, float velocityY) {
+        return !isChildRequestScroll(child.getTranslationY());
+    }
 
     private void scroll(final View child, final float translationY) {
         final float shouldMoveDistance;
@@ -187,7 +195,7 @@ public class TabBehavior extends CoordinatorLayout.Behavior implements NeedExpan
                         mViewPager.getAdapter() != null && //有适配器
                         mViewPager.getAdapter().getCount() > 0 &&//有item
                         mViewPager.getAdapter() instanceof IsChildRequestScrollListener && //实现了
-                        ((IsChildRequestScrollListener) mViewPager.getAdapter()).requestScroll()//需要滑动
+                        ((IsChildRequestScrollListener) mViewPager.getAdapter()).requestScroll(mUp)//需要滑动
                 );
     }
 

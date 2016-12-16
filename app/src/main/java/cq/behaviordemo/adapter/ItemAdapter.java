@@ -55,13 +55,13 @@ public  class ItemAdapter extends FragmentStatePagerAdapter implements IsChildRe
 
 
     @Override
-    public boolean requestScroll() {
+    public boolean requestScroll(boolean up) {
         //有子项目,有设置 vp ,没被清掉
         if(mViewPager!=null&&mViewPager.get()!=null ){
             int currentItem=mViewPager.get().getCurrentItem();
             //实现了接口
             if(getItem(currentItem) instanceof IsChildRequestScrollListener)
-                return ((IsChildRequestScrollListener)getItem(currentItem)).requestScroll();
+                return ((IsChildRequestScrollListener)getItem(currentItem)).requestScroll(up);
         }
 
         return false;

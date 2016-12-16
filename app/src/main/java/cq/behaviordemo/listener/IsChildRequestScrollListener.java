@@ -6,5 +6,5 @@ package cq.behaviordemo.listener;
  */
 
 public interface IsChildRequestScrollListener {
-    boolean requestScroll();
+    boolean requestScroll(boolean up);
 }

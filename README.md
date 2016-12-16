@@ -169,4 +169,4 @@ public boolean onStartNestedScroll(CoordinatorLayout coordinatorLayout, View chi
 
 
 ### TODO
-- 在向上fling的过程中,向下滑,会出现错乱的情况 :-(
+- ~~在向上fling的过程中,向下滑,会出现错乱的情况 :-(~~
