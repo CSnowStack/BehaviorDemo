@@ -12,6 +12,6 @@
 
 #### 我的实现
 
-![实现的效果](https://github.com/CSnowStack/BehaviorDemo/blob/master/img/preview.gif.gif)
+![实现的效果](https://github.com/CSnowStack/BehaviorDemo/blob/master/img/preview.gif)
 
 
