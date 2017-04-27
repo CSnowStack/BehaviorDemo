@@ -14,4 +14,22 @@
 
     <dimen name="icon_padding">8dp</dimen>
     <dimen name="score_padding">4dp</dimen>
+
+
+    <!--airbnb-->
+    <dimen name="airbnb_padding_item_content">16dp</dimen>
+    <dimen name="airbnb_padding_content">12dp</dimen>
+    <dimen name="airbnb_padding_item">10dp</dimen>
+
+    <dimen name="airbnb_icon_size">24dp</dimen>
+    <dimen name="airbnb_icon_size_up">20dp</dimen>
+    <dimen name="airbnb_up_height">60dp</dimen>
+    <dimen name="airbnb_item_height">56dp</dimen>
+    <dimen name="airbnb_translation_min">68dp</dimen>
+    <dimen name="airbnb_translation_max">260dp</dimen>
+    <!--12+(32+24*3)+60-->
+    <dimen name="airbnb_condition_height">180dp</dimen>
+    <dimen name="airbnb_bg_height">310dp</dimen>
+
+    <dimen name="airbnb_text_tip_size">16sp</dimen>
 </resources>

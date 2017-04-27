@@ -3,6 +3,7 @@ package cq.behaviordemo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,17 +12,14 @@ import android.view.ViewGroup;
 
 import cq.behaviordemo.adapter.FriendInfoAdapter;
 import cq.behaviordemo.listener.IsChildRequestScrollListener;
-import cq.behaviordemo.listener.NeedExpandListener;
-import cq.behaviordemo.listener.SupportNeedExpendListener;
 
 /**
- * Created by cqll on 2016/9/30.
+ * 列表Fragment
  */
 
-public class ItemFragment extends Fragment implements IsChildRequestScrollListener ,SupportNeedExpendListener{
+public class ItemFragment extends Fragment implements IsChildRequestScrollListener{
 
     private RecyclerView mRecyclerView;
-    private NeedExpandListener mNeedExpandListener;
     public static ItemFragment newInstance() {
 
         Bundle args = new Bundle();
@@ -42,46 +40,16 @@ public class ItemFragment extends Fragment implements IsChildRequestScrollListen
     private void initView() {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setAdapter(new FriendInfoAdapter());
-        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-            }
-
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                if(dy<0&&((LinearLayoutManager)recyclerView.getLayoutManager()).findFirstCompletelyVisibleItemPosition()==0){
-                    if(mNeedExpandListener!=null)
-                        mNeedExpandListener.needExpand();
-                }
-            }
-        });
     }
 
 
     @Override
     public boolean requestScroll(boolean up) {
-        if(mRecyclerView!=null&&
-                mRecyclerView.getAdapter()!=null&&
-                mRecyclerView.getAdapter().getItemCount()>0){
+        //向上滑动,并且 mRecyclerView 可以上滑动
+        return (up && ViewCompat.canScrollVertically(mRecyclerView, 1)) ||
+                //向下滑动,且可以下滑
+                (!up && ViewCompat.canScrollVertically(mRecyclerView, -1));
 
-            boolean isTop=(((LinearLayoutManager)mRecyclerView.getLayoutManager()).findFirstCompletelyVisibleItemPosition()==0);
-            return up || !isTop;
-        }
-        return false;
-
-    }
-
-
-    @Override
-    public void setNeedExpendListener(NeedExpandListener listener) {
-        mNeedExpandListener=listener;
-    }
-
-    @Override
-    public NeedExpandListener getNeedExpendListener() {
-        return mNeedExpandListener;
     }
 
 }

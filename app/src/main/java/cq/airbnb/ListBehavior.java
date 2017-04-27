@@ -1,4 +1,4 @@
-package cq.behaviordemo.behavior;
+package cq.airbnb;
 
 import android.content.Context;
 import android.support.design.widget.CoordinatorLayout;
@@ -9,9 +9,10 @@ import android.view.View;
 import java.util.List;
 
 import cq.behaviordemo.R;
+import cq.behaviordemo.behavior.HeaderScrollingViewBehavior;
 
 /**
- * Created by cqll on 2016/12/9.
+ * 控制列表的移动
  */
 
 public class ListBehavior extends HeaderScrollingViewBehavior {
@@ -20,6 +21,7 @@ public class ListBehavior extends HeaderScrollingViewBehavior {
         super(context, attrs);
         mHeightToolbar=context.getResources().getDimensionPixelOffset(R.dimen.toolbar_height);
     }
+
 
     @Override
     public boolean layoutDependsOn(CoordinatorLayout parent, View child, View dependency) {
@@ -37,7 +39,7 @@ public class ListBehavior extends HeaderScrollingViewBehavior {
 
     @Override protected int getScrollRange(View v) {
         if (isDependOn(v)) {
-            return -mHeightToolbar;
+            return 0;
         } else {
             return super.getScrollRange(v);
         }

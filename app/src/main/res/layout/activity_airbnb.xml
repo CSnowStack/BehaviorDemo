@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <FrameLayout
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/airbnb_bg_height"
+        android:background="@color/airbnb_bg"
+        app:layout_behavior="cq.airbnb.BGBehavior"/>
+
+    <LinearLayout
+        android:id="@+id/lyt_up"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/airbnb_up_height"
+        android:layout_marginLeft="@dimen/airbnb_padding_content"
+        android:gravity="center_vertical"
+        android:padding="@dimen/airbnb_padding_item_content"
+        app:layout_behavior="cq.airbnb.UpIconBehavior"
+        >
+
+        <ImageView
+            android:layout_width="@dimen/airbnb_icon_size_up"
+            android:layout_height="@dimen/airbnb_icon_size_up"
+            android:src="@drawable/ic_trips_search_view_up_chevron"
+            android:tint="@android:color/white"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lyt_condition"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="@drawable/divider_padding"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/airbnb_padding_content"
+        android:paddingRight="@dimen/airbnb_padding_content"
+        android:paddingTop="@dimen/airbnb_padding_content"
+        android:showDividers="middle"
+        app:layout_behavior="cq.airbnb.SearchItemBehavior"
+        >
+
+        <LinearLayout
+            android:id="@+id/lyt_where"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:alpha="0"
+            android:background="@drawable/bg_airbnb_condition"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="@dimen/airbnb_padding_item_content">
+
+            <ImageView
+                android:layout_width="@dimen/airbnb_icon_size"
+                android:layout_height="@dimen/airbnb_icon_size"
+                android:src="@drawable/ic_trips_search_anywhere"
+                android:tint="@android:color/white"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/airbnb_icon_size"
+                android:paddingLeft="@dimen/airbnb_padding_item_content"
+                android:text="任何地方"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/airbnb_text_tip_size"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/lyt_when"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:alpha="0"
+            android:background="@drawable/bg_airbnb_condition"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="@dimen/airbnb_padding_item_content">
+
+            <ImageView
+                android:layout_width="@dimen/airbnb_icon_size"
+                android:layout_height="@dimen/airbnb_icon_size"
+                android:src="@drawable/ic_trips_search_calendar"
+                android:tint="@android:color/white"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/airbnb_icon_size"
+                android:paddingLeft="@dimen/airbnb_padding_item_content"
+                android:text="任何时间"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/airbnb_text_tip_size"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/lyt_who"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:alpha="0"
+            android:background="@drawable/bg_airbnb_condition"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="@dimen/airbnb_padding_item_content">
+
+            <ImageView
+                android:layout_width="@dimen/airbnb_icon_size"
+                android:layout_height="@dimen/airbnb_icon_size"
+                android:src="@drawable/ic_trips_search_guest"
+                android:tint="@android:color/white"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/airbnb_icon_size"
+                android:paddingLeft="@dimen/airbnb_padding_item_content"
+                android:text="1位"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/airbnb_text_tip_size"/>
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/lyt_all"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/airbnb_padding_content"
+        android:layout_marginRight="@dimen/airbnb_padding_content"
+        android:layout_marginTop="@dimen/airbnb_padding_content"
+        android:background="@drawable/bg_airbnb_condition"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="@dimen/airbnb_padding_item_content"
+        app:layout_behavior="cq.airbnb.SearchAllBehavior"
+        >
+
+        <ImageView
+            android:id="@+id/img_all"
+            android:layout_width="@dimen/airbnb_icon_size"
+            android:layout_height="@dimen/airbnb_icon_size"
+            android:src="@drawable/search"
+            android:tint="@android:color/white"/>
+
+        <TextView
+            android:id="@+id/txt_all"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/airbnb_icon_size"
+            android:paddingLeft="@dimen/airbnb_padding_item_content"
+            android:text="任何地方 · 任何时间 · 1位"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/airbnb_text_tip_size"/>
+    </LinearLayout>
+
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tab_layout"
+        style="@style/TabLayout_AirBnb"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/tab_height"
+        android:paddingBottom="1px"
+        app:layout_behavior="cq.airbnb.TabBehavior"
+        app:tabMode="scrollable"
+        />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        app:layout_behavior="cq.airbnb.ListBehavior"
+        />
+
+
+</android.support.design.widget.CoordinatorLayout>

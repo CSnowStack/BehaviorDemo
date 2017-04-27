@@ -125,9 +125,9 @@ public abstract class HeaderScrollingViewBehavior extends ViewOffsetBehavior<Vie
         return gravity == Gravity.NO_GRAVITY ? GravityCompat.START | Gravity.TOP : gravity;
     }
 
-    abstract View findFirstDependency(List<View> views);
+    public abstract View findFirstDependency(List<View> views);
 
-    int getScrollRange(View v) {
+    protected int getScrollRange(View v) {
         return v.getMeasuredHeight();
     }
 

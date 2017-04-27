@@ -10,4 +10,9 @@
     <color name="bg_context">#E7EEFE</color>
 
     <color name="font_dark">#1E1E1E</color>
+
+
+    <color name="airbnb_bg">#128488</color>
+    <color name="airbnb_content">#359A9D</color>
+
 </resources>
