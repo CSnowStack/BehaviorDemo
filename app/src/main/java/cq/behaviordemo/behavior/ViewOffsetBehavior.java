@@ -6,7 +6,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 /**
- * Created by cqll on 2016/11/5.
+ *
  */
 
 public class ViewOffsetBehavior<V extends View> extends CoordinatorLayout.Behavior<V> {

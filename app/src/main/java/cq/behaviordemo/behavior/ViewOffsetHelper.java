@@ -4,9 +4,8 @@ import android.support.v4.view.ViewCompat;
 import android.view.View;
 
 /**
- * Created by cqll on 2016/11/5.
+ * 偏移的工具类
  */
-
 public  class ViewOffsetHelper {
 
     private final View mView;
@@ -20,6 +19,9 @@ public  class ViewOffsetHelper {
         mView = view;
     }
 
+    /**
+     * 保留初始的top 和 left
+     */
     public void onViewLayout() {
         // Now grab the intended top
         mLayoutTop = mView.getTop();

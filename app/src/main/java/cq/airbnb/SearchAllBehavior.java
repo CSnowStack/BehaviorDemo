@@ -32,17 +32,14 @@ public class SearchAllBehavior extends CoordinatorLayout.Behavior {
         super(context, attrs);
         mMarginTop = context.getResources().getDimensionPixelOffset(R.dimen.airbnb_padding_content);
         mHeightUp = context.getResources().getDimensionPixelOffset(R.dimen.airbnb_up_height);
+        mTranslationMin = context.getResources().getDimensionPixelOffset(R.dimen.airbnb_translation_min);
+        mTranslationMax = context.getResources().getDimensionPixelOffset(R.dimen.airbnb_translation_max);
+        mChangeHeight = mHeightUp - mMarginTop;
 
-        mTranslationMin =context.getResources().getDimensionPixelOffset(R.dimen.airbnb_translation_min);
-
-        mTranslationMax =context.getResources().getDimensionPixelOffset(R.dimen.airbnb_translation_max);
     }
 
     @Override public boolean onLayoutChild(CoordinatorLayout parent, View child, int layoutDirection) {
         parent.onLayoutChild(child, layoutDirection);
-        mChangeHeight = mHeightUp - mMarginTop;
-
-
         if (mTranslationGone == 0)
             mTranslationGone = -child.getRight();
         return true;
@@ -58,19 +55,14 @@ public class SearchAllBehavior extends CoordinatorLayout.Behavior {
     @Override public boolean onDependentViewChanged(CoordinatorLayout parent, View child, View dependency) {
         float translationY = dependency.getTranslationY();
         if (translationY < mTranslationMin) {//向上移动的时候跟随tab
-            if (child.getTranslationX() != 0) {
-                child.setTranslationX(0);
-                child.setClickable(true);
-            }
+            child.setTranslationX(0);
             child.setTranslationY(translationY - mTranslationMin);
         } else {//展开的时候,根据比例设置
             //tab 位移的比例
             float fraction = (translationY - mTranslationMin) / (mTranslationMax - mTranslationMin);
             //根据比例设置位移的距离
             if (fraction <= 1 / 3f) {
-                if (child.getTranslationX() != 0) {
-                    child.setTranslationX(0);
-                }
+                child.setTranslationX(0);
                 child.setTranslationY(fraction * mChangeHeight);
                 child.setAlpha(1 - fraction * 3);
 

@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 import java.util.List;
 
 /**
- * Created by cqll on 2016/11/5.
+ * 头部需要滚动的,列表的behavior
  */
 
 public abstract class HeaderScrollingViewBehavior extends ViewOffsetBehavior<View> {
@@ -32,6 +32,10 @@ public abstract class HeaderScrollingViewBehavior extends ViewOffsetBehavior<Vie
         super(context, attrs);
     }
 
+    /**
+     * 计算宽高
+     *
+     */
     @Override
     public boolean onMeasureChild(CoordinatorLayout parent, View child,
                                   int parentWidthMeasureSpec, int widthUsed, int parentHeightMeasureSpec,
@@ -58,12 +62,14 @@ public abstract class HeaderScrollingViewBehavior extends ViewOffsetBehavior<Vie
                     }
                 }
 
+                //可用的高度
                 int availableHeight = View.MeasureSpec.getSize(parentHeightMeasureSpec);
                 if (availableHeight == 0) {
                     // If the measure spec doesn't specify a size, use the current height
                     availableHeight = parent.getHeight();
                 }
 
+                //列表高度为=可用高度-依赖的view的高度+滚动的距离
                 final int height = availableHeight - header.getMeasuredHeight()
                         + getScrollRange(header);
                 final int heightMeasureSpec = View.MeasureSpec.makeMeasureSpec(height,
@@ -91,6 +97,7 @@ public abstract class HeaderScrollingViewBehavior extends ViewOffsetBehavior<Vie
             final CoordinatorLayout.LayoutParams lp =
                     (CoordinatorLayout.LayoutParams) child.getLayoutParams();
             final Rect available = mTempRect1;
+            //列表可用的 layoutParams . bottom 是为了 列表的高度为parent的可用高度
             available.set(parent.getPaddingLeft() + lp.leftMargin,
                     header.getBottom() + lp.topMargin,
                     parent.getWidth() - parent.getPaddingRight() - lp.rightMargin,
@@ -98,9 +105,10 @@ public abstract class HeaderScrollingViewBehavior extends ViewOffsetBehavior<Vie
                             - parent.getPaddingBottom() - lp.bottomMargin);
 
             final Rect out = mTempRect2;
+            //设置gravity
             GravityCompat.apply(resolveGravity(lp.gravity), child.getMeasuredWidth(),
                     child.getMeasuredHeight(), available, out, layoutDirection);
-
+            //重叠的大小
             final int overlap = getOverlapPixelsForOffset(header);
 
             child.layout(out.left, out.top - overlap, out.right, out.bottom - overlap);

@@ -37,13 +37,14 @@ public class SearchItemBehavior extends CoordinatorLayout.Behavior {
         mMarginTop = context.getResources().getDimensionPixelOffset(R.dimen.airbnb_padding_content);
         mHeightUp = context.getResources().getDimensionPixelOffset(R.dimen.airbnb_up_height);
 
-        mTranslationMin =context.getResources().getDimensionPixelOffset(R.dimen.airbnb_translation_min);
-        mTranslationMax =context.getResources().getDimensionPixelOffset(R.dimen.airbnb_translation_max);
+        mTranslationMin = context.getResources().getDimensionPixelOffset(R.dimen.airbnb_translation_min);
+        mTranslationMax = context.getResources().getDimensionPixelOffset(R.dimen.airbnb_translation_max);
+        mChangeHeight = mHeightUp - mMarginTop;
+
     }
 
     @Override public boolean onLayoutChild(CoordinatorLayout parent, View child, int layoutDirection) {
         parent.onLayoutChild(child, layoutDirection);
-        mChangeHeight = mHeightUp - mMarginTop;
 
         mItemWhere = child.findViewById(R.id.lyt_where);
         mItemWhen = child.findViewById(R.id.lyt_when);
@@ -76,58 +77,37 @@ public class SearchItemBehavior extends CoordinatorLayout.Behavior {
 
             //根据比例设置透明度
             if (fraction < 1 / 3f) {
-                if (mItemWhere.getTranslationX() != 0) {
-                    mItemWhere.setTranslationX(0);
-                }
-                if (mItemWhen.getTranslationX() != mTranslationGone) {
-                    mItemWhen.setTranslationX(mTranslationGone);
+                mItemWhere.setTranslationX(0);
+                mItemWhen.setTranslationX(mTranslationGone);
 
-                }
-                if (mItemWho.getTranslationX() != mTranslationGone) {
-                    mItemWho.setTranslationX(mTranslationGone);
-                }
+                mItemWho.setTranslationX(mTranslationGone);
 
 
                 mItemWhere.setAlpha(fraction * 3);
                 mItemWhen.setAlpha(0);
                 mItemWho.setAlpha(0);
             } else if (fraction < 2 / 3f) {
-                if (mItemWhere.getTranslationX() != 0) {
-                    mItemWhere.setTranslationX(0);
-                }
-                if (mItemWhen.getTranslationX() != 0) {
-                    mItemWhen.setTranslationX(0);
+                mItemWhere.setTranslationX(0);
+                mItemWhen.setTranslationX(0);
 
-                }
-                if (mItemWho.getTranslationX() != mTranslationGone) {
-                    mItemWho.setTranslationX(mTranslationGone);
-                }
+                mItemWho.setTranslationX(mTranslationGone);
 
                 mItemWhere.setAlpha(1);
                 mItemWhen.setAlpha(fraction * 3 - 1);
                 mItemWho.setAlpha(0);
             } else {
-                if (mItemWhere.getTranslationX() != 0) {
-                    mItemWhere.setTranslationX(0);
-                }
-                if (mItemWhen.getTranslationX() != 0) {
-                    mItemWhen.setTranslationX(0);
+                mItemWhere.setTranslationX(0);
+                mItemWhen.setTranslationX(0);
 
-                }
-                if (mItemWho.getTranslationX() != 0) {
-                    mItemWho.setTranslationX(0);
-                }
+                mItemWho.setTranslationX(0);
 
                 mItemWhere.setAlpha(1);
                 mItemWhen.setAlpha(1);
                 mItemWho.setAlpha(fraction * 3 - 2);
             }
-        } else {
-            if (child.getTranslationX() != mTranslationGone) {
+        } else if (child.getTranslationX() != mTranslationGone) {
                 child.setTranslationX(mTranslationGone);
                 child.setAlpha(0);
-            }
-
         }
         return true;
 

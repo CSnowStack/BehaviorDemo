@@ -27,7 +27,6 @@ public class AirbnbActivity extends AppCompatActivity {
         findView();
         initView();
         initEvent();
-        mTabLayout.setTranslationY(getResources().getDimensionPixelOffset(R.dimen.airbnb_translation_min));
     }
 
     private void findView() {

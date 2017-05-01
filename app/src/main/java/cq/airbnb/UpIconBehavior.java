@@ -26,11 +26,11 @@ public class UpIconBehavior extends CoordinatorLayout.Behavior {
         mTranslationMin = context.getResources().getDimensionPixelOffset(R.dimen.airbnb_translation_min);
 
         mTranslationMax = context.getResources().getDimensionPixelOffset(R.dimen.airbnb_translation_max);
+        mChangeHeight = context.getResources().getDimensionPixelOffset(R.dimen.airbnb_up_height) / 4;
     }
 
     @Override public boolean onLayoutChild(CoordinatorLayout parent, View child, int layoutDirection) {
         parent.onLayoutChild(child, layoutDirection);
-        mChangeHeight = child.getHeight() / 4;
         if (mTranslationGone == 0)
             mTranslationGone = -child.getRight();
         return true;
@@ -45,9 +45,7 @@ public class UpIconBehavior extends CoordinatorLayout.Behavior {
         float fraction = (translationY - mTranslationMin) / (mTranslationMax - mTranslationMin);
         //根据比例设置位移的距离
         if (fraction >= 1 / 3f) {
-            if (child.getTranslationX() != 0) {
-                child.setTranslationX(0);
-            }
+            child.setTranslationX(0);
 
             float fractionItem = (fraction * 3 - 1) / 2;
             child.setTranslationY(-(1 - fractionItem) * mChangeHeight);

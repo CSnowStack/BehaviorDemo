@@ -17,14 +17,12 @@ import android.widget.TextView;
 import cq.behaviordemo.Constants;
 import cq.behaviordemo.R;
 import cq.behaviordemo.listener.IsChildRequestScrollListener;
-import cq.behaviordemo.listener.NeedExpandListener;
-import cq.behaviordemo.listener.SupportNeedExpendListener;
 
 /**
  * 控制tab
  */
 
-public class TabBehavior extends CoordinatorLayout.Behavior implements NeedExpandListener {
+public class TabBehavior extends CoordinatorLayout.Behavior {
     /**
      * 向下滑动的最大距离
      */
@@ -70,20 +68,20 @@ public class TabBehavior extends CoordinatorLayout.Behavior implements NeedExpan
         mContext = context;
         mTranslationMax = context.getResources().getDimensionPixelOffset(R.dimen.airbnb_translation_max);
         mTranslationMin = context.getResources().getDimensionPixelOffset(R.dimen.airbnb_translation_min);
-        mHeightChild=context.getResources().getDimensionPixelOffset(R.dimen.tab_height);
+        mHeightChild = context.getResources().getDimensionPixelOffset(R.dimen.tab_height);
 
     }
 
-    /**
-     * 移动初始位置到 all 的下面
-     */
     @Override public boolean onLayoutChild(CoordinatorLayout parent, View child, int layoutDirection) {
         parent.onLayoutChild(child, layoutDirection);
-        mTab = (TabLayout) child;
-        mViewPager = (ViewPager) parent.findViewById(R.id.viewpager);
-        mLytAll = parent.findViewById(R.id.lyt_all);
-        mTxtAll = (TextView) mLytAll.findViewById(R.id.txt_all);
-        mLytContent = parent.findViewById(R.id.content);
+        if(mTab==null){
+            mTab = (TabLayout) child;
+            mViewPager = (ViewPager) parent.findViewById(R.id.viewpager);
+            mLytAll = parent.findViewById(R.id.lyt_all);
+            mTxtAll = (TextView) mLytAll.findViewById(R.id.txt_all);
+            mLytContent = parent.findViewById(R.id.content);
+            mTab.setTranslationY(mTranslationMin);
+        }
 
         return true;
     }
@@ -91,15 +89,6 @@ public class TabBehavior extends CoordinatorLayout.Behavior implements NeedExpan
     @Override
     public boolean onStartNestedScroll(CoordinatorLayout coordinatorLayout, View child, View directTargetChild, View target, int nestedScrollAxes) {
         mControlChange = true;
-
-        //传个接口,需要展开的时候回调
-        PagerAdapter adapter = mViewPager.getAdapter();
-        if (adapter != null && //有适配器
-                adapter.getCount() > 0 &&//有item
-                adapter instanceof SupportNeedExpendListener &&
-                ((SupportNeedExpendListener) adapter).getNeedExpendListener() == null) {
-            ((SupportNeedExpendListener) adapter).setNeedExpendListener(this);
-        }
         return (nestedScrollAxes & ViewCompat.SCROLL_AXIS_VERTICAL) != 0;
     }
 
@@ -142,7 +131,7 @@ public class TabBehavior extends CoordinatorLayout.Behavior implements NeedExpan
     }
 
     private void setGreenStyle() {
-        mWhiteStyle=false;
+        mWhiteStyle = false;
         mTab.setTabTextColors(ContextCompat.getColor(mContext, android.R.color.darker_gray), mWhite);
         mLytAll.setBackgroundResource(R.drawable.bg_airbnb_condition);
         mTxtAll.setTextColor(mWhite);
@@ -153,7 +142,7 @@ public class TabBehavior extends CoordinatorLayout.Behavior implements NeedExpan
     }
 
     private void setWhiteStyle() {
-        mWhiteStyle=true;
+        mWhiteStyle = true;
         mTab.setTabTextColors(ContextCompat.getColor(mContext, android.R.color.darker_gray), mGreen);
         mLytAll.setBackgroundResource(R.drawable.bg_airbnb_condition_gray);
         mTxtAll.setTextColor(ContextCompat.getColor(mContext, android.R.color.black));
@@ -167,7 +156,7 @@ public class TabBehavior extends CoordinatorLayout.Behavior implements NeedExpan
     public void onStopNestedScroll(CoordinatorLayout coordinatorLayout, View child, View target) {
         mControlChange = false;
         float translationY = child.getTranslationY();
-        if (Math.abs(translationY) == mTranslationMax || translationY == mTranslationMin || translationY == 0) {
+        if (translationY == mTranslationMax || translationY == mTranslationMin || translationY == 0) {
             return;
         }
 
@@ -259,39 +248,6 @@ public class TabBehavior extends CoordinatorLayout.Behavior implements NeedExpan
         }
     }
 
-    /**
-     * list fling到头的时候 展开
-     */
-    @Override
-    public void needExpand() {
-        if (!mControlChange && mTab.getTranslationY() != mTranslationMax && !mValueAnimator.isRunning()) {
-            mValueAnimator.setDuration(500);
-            final float startTranslation = mTab.getTranslationY();
-
-            mValueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                @Override
-                public void onAnimationUpdate(ValueAnimator animation) {
-                    int translation = (int) (startTranslation + animation.getAnimatedFraction() * (mTranslationMax - startTranslation));
-                    mTab.setTranslationY(translation);
-                    if (mWhiteStyle && translation > (mTranslationMin + mHeightChild / 2)) {
-                        mWhiteStyle = false;
-                        setGreenStyle();
-                    }
-
-                }
-            });
-            mValueAnimator.addListener(new AnimatorListenerAdapter() {
-                @Override public void onAnimationEnd(Animator animation) {
-                    super.onAnimationEnd(animation);
-                    mTab.setTranslationY(mTranslationMax);
-                    mValueAnimator.removeAllListeners();
-                    mValueAnimator.removeAllUpdateListeners();
-                }
-            });
-            mValueAnimator.start();
-        }
-    }
-
 
     /**
      * 隐藏搜索的详细条件
@@ -323,4 +279,5 @@ public class TabBehavior extends CoordinatorLayout.Behavior implements NeedExpan
         super.onDetachedFromLayoutParams();
         mValueAnimator.cancel();
     }
+
 }
