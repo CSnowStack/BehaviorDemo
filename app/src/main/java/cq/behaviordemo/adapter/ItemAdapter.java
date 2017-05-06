@@ -9,14 +9,11 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
+import cq.airbnb.IsChildRequestScrollListener;
 import cq.behaviordemo.ItemFragment;
-import cq.behaviordemo.listener.IsChildRequestScrollListener;
 import cq.behaviordemo.listener.NeedExpandListener;
 import cq.behaviordemo.listener.SupportNeedExpendListener;
 
-/**
- * Created by cqll on 2016/12/15.
- */
 
 public  class ItemAdapter extends FragmentStatePagerAdapter implements IsChildRequestScrollListener,SupportNeedExpendListener{
     private String [] titles={"MEDIA","ABOUT","REVIEWS"};
@@ -65,13 +62,13 @@ public  class ItemAdapter extends FragmentStatePagerAdapter implements IsChildRe
 
 
     @Override
-    public boolean requestScroll(boolean up) {
+    public boolean requestScroll(boolean up,boolean isTranslationMin) {
         //有子项目,有设置 vp ,没被清掉
         if(mViewPager!=null&&mViewPager.get()!=null ){
             int currentItem=mViewPager.get().getCurrentItem();
             //实现了接口
             if(getItem(currentItem) instanceof IsChildRequestScrollListener)
-                return ((IsChildRequestScrollListener)getItem(currentItem)).requestScroll(up);
+                return ((IsChildRequestScrollListener)getItem(currentItem)).requestScroll(up,isTranslationMin);
         }
 
         return false;

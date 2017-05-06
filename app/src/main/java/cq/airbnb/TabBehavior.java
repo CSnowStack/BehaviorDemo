@@ -16,7 +16,6 @@ import android.widget.TextView;
 
 import cq.behaviordemo.Constants;
 import cq.behaviordemo.R;
-import cq.behaviordemo.listener.IsChildRequestScrollListener;
 
 /**
  * 控制tab
@@ -214,11 +213,12 @@ public class TabBehavior extends CoordinatorLayout.Behavior {
      */
     private boolean isChildRequestScroll(float translationY) {
         PagerAdapter adapter = mViewPager.getAdapter();
-        return ((translationY == 0 || (!mUp && translationY == mTranslationMin))/*在顶部,或者向下滑且在初始位置*/ &&
+        boolean isTranslationMin=translationY==mTranslationMin;
+        return ((translationY == 0 ||((translationY==mTranslationMax||isTranslationMin)&&!mUp))&&/*在顶部,或在底部且向下滑,在初始位置的时候,不给刷新,但是可以向下滑*/
                 adapter != null && //有适配器
                 adapter.getCount() > 0 &&//有item
                 adapter instanceof IsChildRequestScrollListener && //实现了
-                ((IsChildRequestScrollListener) adapter).requestScroll(mUp)//需要滑动
+                ((IsChildRequestScrollListener) adapter).requestScroll(mUp,isTranslationMin)//需要滑动
         );
     }
 
@@ -227,7 +227,7 @@ public class TabBehavior extends CoordinatorLayout.Behavior {
      * 显示搜索全部
      */
     public void showSearchAll() {
-        if (!mControlChange && mTab.getTranslationY() == -0 && !mValueAnimator.isRunning()) {
+        if (!mControlChange && mTab.getTranslationY() == 0 && !mValueAnimator.isRunning()) {
             mValueAnimator.setDuration(500);
             final float startTranslation = mTab.getTranslationY();
             mValueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
