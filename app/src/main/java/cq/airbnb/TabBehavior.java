@@ -280,4 +280,35 @@ public class TabBehavior extends CoordinatorLayout.Behavior {
         mValueAnimator.cancel();
     }
 
+    /**
+     * list fling到头的时候 展开
+     */
+    public void needExpand() {
+        if (!mControlChange && mTab.getTranslationY() != mTranslationMax && !mValueAnimator.isRunning()) {
+            mValueAnimator.setDuration(500);
+            final float startTranslation = mTab.getTranslationY();
+
+            mValueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator animation) {
+                    int translation = (int) (startTranslation + animation.getAnimatedFraction() * (mTranslationMax - startTranslation));
+                    mTab.setTranslationY(translation);
+                    if (mWhiteStyle && translation > (mTranslationMin + mHeightChild / 2)) {
+                        mWhiteStyle = false;
+                        setGreenStyle();
+                    }
+
+                }
+            });
+            mValueAnimator.addListener(new AnimatorListenerAdapter() {
+                @Override public void onAnimationEnd(Animator animation) {
+                    super.onAnimationEnd(animation);
+                    mTab.setTranslationY(mTranslationMax);
+                    mValueAnimator.removeAllListeners();
+                    mValueAnimator.removeAllUpdateListeners();
+                }
+            });
+            mValueAnimator.start();
+        }
+    }
 }
