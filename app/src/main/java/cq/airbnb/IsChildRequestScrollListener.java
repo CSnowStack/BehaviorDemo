@@ -5,5 +5,5 @@ package cq.airbnb;
  */
 
 public interface IsChildRequestScrollListener {
-    boolean requestScroll(boolean up,boolean inTranslationMin);
+    boolean requestScroll(boolean up,boolean shouldNotRefresh);
 }

@@ -60,12 +60,12 @@ public class ItemFragment extends Fragment implements IsChildRequestScrollListen
 
 
     @Override
-    public boolean requestScroll(boolean up,boolean isTranslationMin) {
+    public boolean requestScroll(boolean up,boolean shouldNotRefresh) {
         //向上滑动,并且 mRecyclerView 可以上滑动
         return (up && ViewCompat.canScrollVertically(mRecyclerView, 1)) ||
-                //向下滑动,且可以下滑或者(可以刷新,且不在初始位置)
+                //向下滑动,且可以下滑或者(可以刷新,且不在初始位置,不在顶部)
                 (!up && (ViewCompat.canScrollVertically(mRecyclerView, -1) ||
-                        (!isTranslationMin&&((LinearLayoutManager) mRecyclerView.getLayoutManager()).findFirstCompletelyVisibleItemPosition() == 0)));
+                        (!shouldNotRefresh&&((LinearLayoutManager) mRecyclerView.getLayoutManager()).findFirstCompletelyVisibleItemPosition() == 0)));
 
     }
 

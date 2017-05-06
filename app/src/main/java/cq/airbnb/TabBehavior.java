@@ -103,6 +103,7 @@ public class TabBehavior extends CoordinatorLayout.Behavior {
         }
 
         //如果list需要滑动 且 不是(向上滑&&tab不在顶部)
+
         if (isChildRequestScroll(child.getTranslationY())) {
             consumed[1] = 0;
             return;
@@ -213,12 +214,12 @@ public class TabBehavior extends CoordinatorLayout.Behavior {
      */
     private boolean isChildRequestScroll(float translationY) {
         PagerAdapter adapter = mViewPager.getAdapter();
-        boolean isTranslationMin=translationY==mTranslationMin;
-        return ((translationY == 0 ||((translationY==mTranslationMax||isTranslationMin)&&!mUp))&&/*在顶部,或在底部且向下滑,在初始位置的时候,不给刷新,但是可以向下滑*/
+        boolean shouldNotRefresh=translationY==mTranslationMin||translationY==0;//这两个位置的时候不应该刷新
+        return ((translationY == 0 ||((translationY==mTranslationMax||shouldNotRefresh)&&!mUp))&&/*在顶部,或在底部且向下滑,在初始位置的时候,不给刷新,但是可以向下滑*/
                 adapter != null && //有适配器
                 adapter.getCount() > 0 &&//有item
                 adapter instanceof IsChildRequestScrollListener && //实现了
-                ((IsChildRequestScrollListener) adapter).requestScroll(mUp,isTranslationMin)//需要滑动
+                ((IsChildRequestScrollListener) adapter).requestScroll(mUp,shouldNotRefresh)//需要滑动
         );
     }
 
